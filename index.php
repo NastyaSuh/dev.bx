@@ -7,7 +7,7 @@ $userAge = readline("Age: ");
 if($userAge >= 0)
 	findMovie($userAge, $movies);
 else
-	echo "Please enter correct age.";
+	echo "Please enter correct age";
 
 function findMovie(int $userAge, array $movies): void{
 	$i = 1;
