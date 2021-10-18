@@ -11,5 +11,5 @@ if(is_numeric($userAge))
 }
 else
 {
-	echo "Invalid form! Please enter correct age.";
+	echo "Invalid form! Please enter correct age";
 }
