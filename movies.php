@@ -1,5 +1,34 @@
 <?php
 
+function findMovie(int $userAge, array $movies): void
+{
+	$i = 1;
+	foreach ($movies as $film)
+	{
+		$ageRestriction = $film['age_restriction'];
+		if($ageRestriction <= $userAge)
+		{
+			printMessage($i, $film);
+			$i ++;
+		}
+	}
+}
+
+function printMessage(int $position, array $movie): void
+{
+	$formattedMovie = formattedMovie($movie);
+	echo "$position. $formattedMovie" . "\n";
+}
+
+function formattedMovie(array $movie): string
+{
+	$movieTitle = $movie['title'];
+	$releaseYear = $movie['release_year'];
+	$ageRestriction = $movie['age_restriction'];
+	$movieRating = $movie['rating'];
+	return "$movieTitle ($releaseYear), $ageRestriction+. Rating: $movieRating";
+}
+
 $movies = [
 	[
 		"title" => "The Shawshank Redemption",
