@@ -7,7 +7,7 @@ $userAge = readline("Age: ");
 
 if(is_numeric($userAge))
 {
-	findMovie((int) $userAge, $movies);
+	printFormattedMovie((int) $userAge, $movies);
 }
 else
 {

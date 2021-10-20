@@ -1,6 +1,6 @@
 <?php
 
-function findMovie(int $userAge, array $movies): void
+function printFormattedMovie(int $userAge, array $movies): void
 {
 	$i = 1;
 	foreach ($movies as $film)
@@ -16,11 +16,11 @@ function findMovie(int $userAge, array $movies): void
 
 function printMessage(int $position, array $movie): void
 {
-	$formattedMovie = formattedMovie($movie);
+	$formattedMovie = formatMovie($movie);
 	echo "$position. $formattedMovie" . "\n";
 }
 
-function formattedMovie(array $movie): string
+function formatMovie(array $movie): string
 {
 	$movieTitle = $movie['title'];
 	$releaseYear = $movie['release_year'];
