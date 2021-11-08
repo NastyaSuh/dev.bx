@@ -7,8 +7,9 @@
 	foreach ($movies as $movie): ?>
 		<div class="movie-list-item">
 			<div class="movie-list-item-overlay">
-				<a href="index.php?id=<?= $movie['id'] ?>"
-				   class="overlay-more">Подробнее</a>
+				<div class="movie-overlay">
+					<a href="index.php?id=<?= $movie['id'] ?>" class="more-button">Подробнее</a>
+				</div>
 			</div>
 			<div class="movie-list-item-image" style="background:
 				url('images/<?= $movie['id'] ?>.jpg') center no-repeat;

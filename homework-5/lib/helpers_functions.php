@@ -69,12 +69,12 @@ function contains(string $line, string $substring): bool
 	return strpos($line, $substring) !== false;
 }
 
-function mergeMovie(array $movies, array $config): string
+function mergeMovie(array $movies, array $search_items): string
 {
 	$mergedMovie = "";
 	foreach ($movies as $key => $movie)
 	{
-		if (!in_array($key, $config['search-items']))
+		if (!in_array($key, $search_items))
 		{
 			continue;
 		}
@@ -91,7 +91,7 @@ function mergeMovie(array $movies, array $config): string
 	return mb_strtolower($mergedMovie);
 }
 
-function sortMoviesByUserRequest(array $movies, string $request, array $config): array
+function sortMoviesByUserRequest(array $movies, string $request, array $search_items): array
 {
 	if ($request === "")
 	{
@@ -104,7 +104,7 @@ function sortMoviesByUserRequest(array $movies, string $request, array $config):
 	foreach ($movies as $movie)
 	{
 		//если $request находится в movie, тогда sortedMovies = movie
-		if (contains(mergeMovie($movie, $config), $request))
+		if (contains(mergeMovie($movie, $search_items), $request))
 		{
 			$sortedMovies[] = $movie;
 		}

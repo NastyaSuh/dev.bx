@@ -25,19 +25,20 @@
 		<ul class="menu">
 			<li class="menu-item">
 				<a href="index.php"
-				   class="<?= $currentMenuItem === $config['menu']['main'] ? 'menu-item--active'
-					   : ' ' ?>"><?= $config['menu']['main'] ?></a>
+				   class="<?= $currentMenuItem === $config['menu']['main'] ? 'menu-item--active' : ' ' ?>">
+					<?= $config['menu']['main'] ?></a>
 			</li>
 			<?php
 			foreach ($genres as $key => $genre): ?>
 				<li class="menu-item">
 					<a href="index.php?menuItem=<?= $key ?>"
-					   class="<?= $currentMenuItem === $genre ? 'menu-item--active' : ' ' ?>"><?= $genre ?></a>
+					   class="<?= $currentMenuItem === $key ? 'menu-item--active' : ' ' ?>"><?= $genre ?></a>
+
 				</li>
 			<?php
 			endforeach; ?>
 			<li class="menu-item">
-				<a href="index.php?menuItem=<?= $config['menu']['favorites'] ?>"
+				<a href="index_favorite_movies.php"
 				   class="<?= $currentMenuItem === $config['menu']['favorites'] ? 'menu-item--active'
 					   : ' ' ?>"><?= $config['menu']['favorites'] ?></a>
 			</li>
@@ -47,7 +48,8 @@
 		<?= renderTemplate('./resources/pages/search_page.php',
 			[
 				'request' => $request,
-			]); ?>
+			]);
+		?>
 		<div class="content">
 			<?= $content; ?>
 		</div>
