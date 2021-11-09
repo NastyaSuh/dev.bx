@@ -10,7 +10,6 @@ require_once "config/app.php";
 
 $currentMenuItem = $_GET['menuItem'] ?? $config['menu']['main'];
 $genre = array_key_exists($currentMenuItem, $genres) ? $genres[$currentMenuItem] : '';
-$addMovie = isset($_GET['addMovie']);
 
 $request = $_GET['request'] ?? "";
 
