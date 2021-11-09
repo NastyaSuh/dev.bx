@@ -8,7 +8,8 @@
 		<div class="movie-list-item">
 			<div class="movie-list-item-overlay">
 				<div class="movie-overlay">
-					<a href="index.php?id=<?= $movie['id'] ?>" class="more-button">Подробнее</a>
+<!--					<a href="index.php?id=--><?//= $movie['id'] ?><!--" class="more-button">Подробнее</a>-->
+					<a href="index_detailed_movie.php?id=<?= $movie['id'] ?>" class="more-button">Подробнее</a>
 				</div>
 			</div>
 			<div class="movie-list-item-image" style="background:

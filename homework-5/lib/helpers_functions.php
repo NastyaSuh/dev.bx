@@ -31,27 +31,27 @@ function printGenre(array $genres): string
 	return implode(', ', $genres);
 }
 
-function sortMoviesByGenre(array $movies, string $genre = ""): array
+function filterMoviesByGenre(array $movies, string $genre = ""): array
 {
 	if ($genre === "")
 	{
 		return $movies;
 	}
 
-	$sortedMoviesByGenre = [];
+	$filteredMoviesByGenre = [];
 
 	foreach ($movies as $movie)
 	{
 		if (in_array($genre, $movie['genres']))
 		{
-			$sortedMoviesByGenre[] = $movie;
+			$filteredMoviesByGenre[] = $movie;
 		}
 	}
 
-	return $sortedMoviesByGenre;
+	return $filteredMoviesByGenre;
 }
 
-function sortMoviesByID(array $movies, int $id)
+function filterMoviesByID(array $movies, int $id)
 {
 	foreach ($movies as $movie)
 	{
@@ -91,7 +91,7 @@ function mergeMovie(array $movies, array $search_items): string
 	return mb_strtolower($mergedMovie);
 }
 
-function sortMoviesByUserRequest(array $movies, string $request, array $search_items): array
+function getMoviesByUserRequest(array $movies, string $request, array $search_items): array
 {
 	if ($request === "")
 	{

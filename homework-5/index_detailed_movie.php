@@ -10,23 +10,26 @@ require_once "config/app.php";
 
 $currentMenuItem = $_GET['menuItem'] ?? $config['menu']['main'];
 $genre = array_key_exists($currentMenuItem, $genres) ? $genres[$currentMenuItem] : '';
+$addMovie = isset($_GET['addMovie']);
 
 $request = $_GET['request'] ?? "";
 
-$sortedMovie = filterMoviesByGenre($movies, $genre);
-$sortedMovie = getMoviesByUserRequest($sortedMovie, $request, $config['search-items']);
-
-if (!empty($sortedMovie))
+if (isset($_GET['id']))
 {
-	$content = renderTemplate("./resources/pages/movie_card.php", [
-		'movies' => $sortedMovie,
-	]);
-}
-else
-{
-	$content = renderTemplate("./resources/pages/movie_not_found.php", [
-		'config' => $config,
-	]);
+	$id = (int)$_GET['id'];
+	$filteredMovieByID = filterMoviesByID($movies, $id);
+	if ($filteredMovieByID)
+	{
+		$content = renderTemplate("./resources/pages/detailed_movie.php", [
+			'movie' => $filteredMovieByID,
+		]);
+	}
+	else
+	{
+		$content = renderTemplate("./resources/pages/movieNotFound.php", [
+			'config' => $config,
+		]);
+	}
 }
 
 $result = renderTemplate("./resources/pages/start_page.php", [
