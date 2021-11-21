@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&display=swap');
+
+h1 {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+}
+
+.calendar-container {
+
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+
+	margin: 0 auto;
+	background-color: #ddd;
+	border-radius: 10px;
+	width: 600px;
+	padding: 20px;
+	flex-direction: column;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+.item-container {
+	border-bottom: 1px solid #aaa;
+	flex-direction: column;
+	line-height: 30px;
+	font-size: 20px;
+	margin-bottom: 5px;
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
+}
+
+.item-container:last-child {
+	border: none;
+}
+
+.calendar-container .calendar-new-item-title {
+	line-height: 30px;
+	font-size: 20px;
+}
+
+.calendar-container button {
+	line-height: 25px;
+	font-size: 15px;
+	border-radius: 5px;
+}
+
+.hidden {
+	display: none;
+}
+
+.item-title {
+	line-height: 30px;
+	font-size: 20px;
+	margin-bottom: 5px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.popup-text {
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+}
