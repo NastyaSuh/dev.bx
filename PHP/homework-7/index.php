@@ -14,12 +14,10 @@ require_once "./lib/data_base_functions.php";
 $database = connectToDataBase($config['dataBase']);
 $genres = getGenresFromDB($database);
 $currentMenuItem = $_GET['menuItem'] ?? $config['menu']['main'];
-//если есть id фильма, можем переходить в подробную информацию о нем, если нет, тогда переходим по жанрам в боковом меню
+$request = $_GET['request'] ?? "";
 
-//переходим по жанрам в боковом меню
-//мы получили список фильмов из бд => если !$movies тогда вызываем заглушку, если нет, то вызывает movie_card
 $genre = array_key_exists($currentMenuItem, $genres) ? $genres[$currentMenuItem] : '';
-$movies = getMoviesFromDB($database, $genres, $genre);
+$movies = getMoviesFromDB($database, $config['search-items'], $request, $genre);
 if(empty($movies))
 {
 	$content = renderTemplate("./resources/pages/not_found.php", [
@@ -37,7 +35,11 @@ $result = renderTemplate("./resources/pages/start_page.php", [
 	'genres' => $genres,
 	'content' => $content,
 	'config' => $config,
-	// 'request' => $request,
+	'request' => $request,
 	'currentMenuItem' => $currentMenuItem,
 ]);
 echo $result;
+
+//если есть id фильма, можем переходить в подробную информацию о нем, если нет, тогда переходим по жанрам в боковом меню
+//переходим по жанрам в боковом меню
+//мы получили список фильмов из бд => если !$movies тогда вызываем заглушку, если нет, то вызывает movie_card

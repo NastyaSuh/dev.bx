@@ -4,7 +4,8 @@ function getGeneralQuery(): string
 {
 	return "SELECT movie.ID as id, movie.TITLE as title, movie.ORIGINAL_TITLE as 'original-title',
 					movie.DESCRIPTION as description, movie.DURATION as duration,
-                    movie.AGE_RESTRICTION as 'age-restriction', movie.RELEASE_DATE as 'release-date', movie.RATING as rating,
+                    movie.AGE_RESTRICTION as 'age-restriction', movie.RELEASE_DATE as 'release-date', 
+                    movie.RATING as rating, d.NAME as 'director',
 					 (
 				          SELECT GROUP_CONCAT(actor.NAME)
 				          FROM actor 
@@ -42,24 +43,30 @@ function getGenresFromDB(mysqli $database): array
 	return $genres;
 }
 
-function getMoviesFromDB(mysqli $database, array $genres, string $codeGenre = ""): array
+//для поиска просто модифицирую функцию по получению фильмов из БД
+//доп-о передаю туда параметры поиска и запрос
+//если код жанра пустой, тогда вызываю $result = mysqli_query($database, $query1);
+//если строка запроса не пустая, тогда ищу по параметрам из конфига
+
+function getMoviesFromDB(mysqli $database, array $searchParameters, string $request = "", string $codeGenre = ""): array
 {
 	$movies = [];
 	$query1 = getGeneralQuery();
-
-	if ($codeGenre == "")
+	$searchField = implode(',', $searchParameters);
+	if ($codeGenre != "")
 	{
-		$result = mysqli_query($database, $query1);
-	}
-
-	else
-	{
-		$query2 = $query1 . "INNER JOIN movie_genre m on movie.ID = m.MOVIE_ID
+		$query1 .= "INNER JOIN movie_genre m on movie.ID = m.MOVIE_ID
 					INNER JOIN genre g on m.GENRE_ID = g.ID
 					WHERE g.NAME = '$codeGenre'
 					";
-		$result = mysqli_query($database, $query2);
 	}
+
+	if($request != "")
+	{
+		$query1 = "SELECT * FROM ($query1) as query1 WHERE CONCAT($searchField) like '%$request%'";
+	}
+
+	$result = mysqli_query($database, $query1);
 
 	if (!$result)
 	{
@@ -71,7 +78,6 @@ function getMoviesFromDB(mysqli $database, array $genres, string $codeGenre = ""
 	{
 		$movies[] = $row;
 	}
-
 	return $movies;
 }
 

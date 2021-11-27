@@ -44,11 +44,10 @@
 		</ul>
 	</div>
 	<div class="container">
-		<?= renderTemplate('./resources/pages/search_page.php'
-			// [
-			// 	'request' => $request,
-			// ]
-		);
+		<?= renderTemplate('./resources/pages/search_page.php',
+						   [
+							   'request' => $request,
+						   ]);
 		?>
 		<div class="content">
 			<?= $content; ?>
