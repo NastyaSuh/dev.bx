@@ -1,0 +1,154 @@
+.movie-list-item {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	width: 370px;
+	height: 700px;
+
+	background: white;
+	border-radius: 10px;
+	margin-left: 30px;
+	margin-top: 20px;
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+
+	font-family: Open Sans, sans-serif;
+}
+
+.movie-list-item-overlay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 9;
+	opacity: 0;
+	transition: .3s;
+}
+
+.movie-list-item:hover .movie-list-item-overlay {
+	opacity: 1;
+}
+
+.overlay-more {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 20px;
+	background: rgba(0, 0, 0, 0.7);
+	opacity: 0;
+	transition: .3s;
+}
+.more-button
+{
+	display: block;
+	width: 221px;
+	height: 56px;
+
+	border-radius: 7px;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 56px;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #FFFFFF;
+	background: #4EE7B0;
+}
+
+.movie-list-item-head {
+	display: block;
+	padding: 12px 0 15px 0;
+	margin: 0 20px;
+}
+
+.movie-list-item-image {
+	height: 430px;
+	border-radius: 10px 10px 0 0;
+}
+
+.head-title {
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 30px;
+	color: #333;
+}
+
+.head-subtitle {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 25px;
+	color: #999;
+
+	margin-bottom: 15px;
+}
+
+.head-wrapper {
+	display: block;
+	height: 1px;
+	background: #f2f2f2;
+}
+
+.movie-list-item-description {
+	margin: 0 20px;
+	max-height: 99px;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333;
+}
+
+.movie-list-item-footer {
+	display: flex;
+	flex: 1;
+	float: bottom;
+	margin: 23px 20px;
+	align-items: end;
+	white-space: nowrap;
+	justify-content: space-between;
+
+	font-family: Open Sans, sans-serif;
+	font-style: normal;
+	line-height: 22px;
+}
+
+.footer-duration {
+	position: relative;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 22px;
+	color: #ccc;
+
+	padding-left: 25px;
+}
+
+.footer-clock {
+	position: absolute;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	background: url("../resource_images/clock1.svg") center no-repeat;
+	margin-top: -22px;
+}
+
+.footer-info {
+	font-weight: 600;
+	font-size: 10px;
+	line-height: 22px;
+	color: #ccc;
+	text-transform: uppercase;
+	text-align: right;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 10px;
+}
