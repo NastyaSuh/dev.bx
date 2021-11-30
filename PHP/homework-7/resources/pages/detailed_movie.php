@@ -1,6 +1,7 @@
 <?php
 /** @var array $movie */
-/** @var array $actors */
+/** @var array $actorsById */
+/** @var array $directors */
 ?>
 <div class="detailed-movie-item">
 	<div class="detailed-movie-item-head">
@@ -42,11 +43,11 @@
 			</div>
 			<div class="info-about-film-more">
 				<div class="info-about-film-more-name">Режиссер:</div>
-				<div class="info-about-film-more-text"><?= $actors['director'] ?></div>
+				<div class="info-about-film-more-text"><?= arrayToString($directors) ?></div>
 			</div>
 			<div class="info-about-film-more">
 				<div class="info-about-film-more-name">В главных ролях:</div>
-				<div class="info-about-film-more-text"><?= $actors['actors'] ?></div>
+				<div class="info-about-film-more-text"><?=arrayToString($actorsById['actors']) ?></div>
 			</div>
 			<h1 class="info-about-film">Описание</h1>
 			<div class="info-about-film-description">

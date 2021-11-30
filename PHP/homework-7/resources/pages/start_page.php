@@ -29,10 +29,10 @@
 					<?= $config['menu']['main'] ?></a>
 			</li>
 			<?php
-			foreach ($genres as $code => $genre): ?>
+			foreach ($genres as $id => $genre): ?>
 				<li class="menu-item">
-					<a href="index.php?menuItem=<?= $code ?>"
-					   class="<?= $currentMenuItem === $code ? 'menu-item--active' : ' ' ?>"><?= $genre ?></a>
+					<a href="index.php?menuItem=<?= $id ?>"
+					   class="<?= $currentMenuItem == $id ? 'menu-item--active' : ' ' ?>"><?= $genre ?></a>
 				</li>
 			<?php
 			endforeach; ?>

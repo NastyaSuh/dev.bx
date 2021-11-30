@@ -13,10 +13,11 @@ require_once "./lib/data_base_functions.php";
 $database = connectToDataBase($config['dataBase']);
 $genres = getGenresFromDB($database);
 $currentMenuItem = $_GET['menuItem'] ?? $config['menu']['main'];
+
 $request = $_GET['request'] ?? "";
 
 $genre = array_key_exists($currentMenuItem, $genres) ? $genres[$currentMenuItem] : '';
-$movies = getMoviesFromDB($database, $config['search-items'], $request, $genre);
+$movies = getMoviesFromDB($database, $config['search-items'], $genres, $request, $genre);
 if(empty($movies))
 {
 	$content = renderTemplate("./resources/pages/not_found.php", [

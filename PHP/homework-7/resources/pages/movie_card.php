@@ -8,7 +8,6 @@
 		<div class="movie-list-item">
 			<div class="movie-list-item-overlay">
 				<div class="movie-overlay">
-<!--					<a href="index.php?id=--><?//= $movie['id'] ?><!--" class="more-button">Подробнее</a>-->
 					<a href="index_detailed_movie.php?movieId=<?= $movie['id'] ?>" class="more-button">Подробнее</a>
 				</div>
 			</div>
@@ -28,7 +27,7 @@
 					<div class="footer-clock"></div>
 				</div>
 				<div class="footer-info">
-					<?= $movie['genres'] ?>
+					<?= arrayToString($movie['genres']) ?>
 				</div>
 			</div>
 		</div>

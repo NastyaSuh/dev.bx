@@ -25,7 +25,17 @@ function formatRating(float $rating): string
 	return str_pad((string)$rating, 3, ".0", STR_PAD_RIGHT);;
 }
 
-function printGenre(array $genres): string
+function arrayToString(array $array): string
 {
-	return implode(', ', $genres);
+	return implode(', ', $array);
+}
+
+function convertArrayFromIdsToNames($arrays, $arrayId): array
+{
+	$namesArray = [];
+	foreach($arrayId as $id)
+	{
+		$namesArray[] = $arrays[$id];
+	}
+	return $namesArray;
 }

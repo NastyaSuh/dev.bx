@@ -13,6 +13,8 @@ require_once "./lib/data_base_functions.php";
 
 $database = connectToDataBase($config['dataBase']);
 $genres = getGenresFromDB($database);
+$actors = getActorsFromDB($database);
+
 $movieId = $_GET['movieId'];
 
 $currentMenuItem = $_GET['menuItem'] ?? $config['menu']['main'];
@@ -24,7 +26,8 @@ if (isset($_GET['movieId']))
 {
 	$movieId = (int)$movieId;
 	$movie = getMovieById($database, $movieId)[0];
-	$actors = getActors($database, $movieId)[0];
+	$actorsById = getActorsById($database, $actors, $movieId)[0];
+	$directors = getDirectorById($database, $movieId)[0];
 	if (!$movie)
 	{
 		$content = renderTemplate("./resources/pages/movie_not_found.php", [
@@ -35,7 +38,8 @@ if (isset($_GET['movieId']))
 	{
 		$content = renderTemplate("./resources/pages/detailed_movie.php", [
 			'movie' => $movie,
-			'actors' => $actors,
+			'actorsById' => $actorsById,
+			'directors' => $directors
 		]);
 	}
 }

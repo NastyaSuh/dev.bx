@@ -5,19 +5,17 @@ function getGeneralQuery(): string
 	return "SELECT movie.ID as id, movie.TITLE as title, movie.ORIGINAL_TITLE as 'original-title',
 					movie.DESCRIPTION as description, movie.DURATION as duration,
                     movie.AGE_RESTRICTION as 'age-restriction', movie.RELEASE_DATE as 'release-date', 
-                    movie.RATING as rating, d.NAME as 'director',
-					 (
-				          SELECT GROUP_CONCAT(actor.NAME)
-				          FROM actor 
-				          INNER JOIN movie_actor ma on actor.ID = ma.ACTOR_ID
-				          WHERE ma.MOVIE_ID = movie.ID
-				        ) as actors,					      
+                    movie.RATING as rating, d.NAME as 'director',					      
                     ( 
-				          SELECT GROUP_CONCAT(genre.NAME)
-				          FROM genre 
-				          INNER JOIN movie_genre mg on genre.ID = mg.GENRE_ID
+				          SELECT GROUP_CONCAT(mg.GENRE_ID)
+				          FROM movie_genre mg 
 				          WHERE mg.MOVIE_ID = movie.ID
-                    ) as genres
+                    ) as genres,
+                    (
+                        SELECT GROUP_CONCAT(ma.ACTOR_ID)
+						FROM movie_actor ma 
+						WHERE ma.MOVIE_ID = movie.ID
+					) as actors
 					FROM movie
 					INNER JOIN director d on movie.DIRECTOR_ID = d.ID 
 					";
@@ -26,7 +24,7 @@ function getGeneralQuery(): string
 function getGenresFromDB(mysqli $database): array
 {
 	$genres = [];
-	$query = "SELECT CODE, NAME FROM dev.genre";
+	$query = "SELECT ID, NAME FROM dev.genre";
 	$result = mysqli_query($database, $query);
 	if (!$result)
 	{
@@ -35,7 +33,7 @@ function getGenresFromDB(mysqli $database): array
 	}
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		$genreId = $row['CODE'];
+		$genreId = $row['ID'];
 		$genreName = $row['NAME'];
 		$genres[$genreId] = $genreName;
 	}
@@ -43,12 +41,38 @@ function getGenresFromDB(mysqli $database): array
 	return $genres;
 }
 
+function getActorsFromDB(mysqli $database): array
+{
+	$actors = [];
+	$query = "SELECT ID, NAME FROM actor";
+	$result = mysqli_query($database, $query);
+	if (!$result)
+	{
+		$error = mysqli_errno($database) . ":" . mysqli_error($database);
+		trigger_error($error);
+	}
+	while ($row = mysqli_fetch_assoc($result))
+	{
+		$actorId = $row['ID'];
+		$actorName = $row['NAME'];
+		$actors[$actorId] = $actorName;
+	}
+
+	return $actors;
+}
+
 //для поиска просто модифицирую функцию по получению фильмов из БД
 //доп-о передаю туда параметры поиска и запрос
 //если код жанра пустой, тогда вызываю $result = mysqli_query($database, $query1);
 //если строка запроса не пустая, тогда ищу по параметрам из конфига
 
-function getMoviesFromDB(mysqli $database, array $searchParameters, string $request = "", string $codeGenre = ""): array
+function getMoviesFromDB(
+	mysqli $database,
+	array  $searchParameters,
+	array  $genres,
+	string $request = "",
+	string $codeGenre = ""
+): array
 {
 	$movies = [];
 	$query1 = getGeneralQuery();
@@ -61,12 +85,30 @@ function getMoviesFromDB(mysqli $database, array $searchParameters, string $requ
 					";
 	}
 
-	if($request != "")
+	if ($request != "")
 	{
-		$query1 = "SELECT * FROM ($query1) as query1 WHERE CONCAT($searchField) like '%$request%'";
+		$query1 = "SELECT * FROM ($query1) as query1 WHERE CONCAT($searchField) like ?";
 	}
 
-	$result = mysqli_query($database, $query1);
+	$preparedStatement = mysqli_prepare($database, $query1);
+
+	$usingQuery = $request !== "";
+
+	if ($usingQuery)
+	{
+		$request = "%$request%";
+		mysqli_stmt_bind_param($preparedStatement, "s", $request);
+	}
+
+	$executeResult = mysqli_stmt_execute($preparedStatement);
+
+	if (!$executeResult)
+	{
+		$error = mysqli_errno($database) . ":" . mysqli_error($database);
+		trigger_error($error);
+	}
+
+	$result = mysqli_stmt_get_result($preparedStatement);
 
 	if (!$result)
 	{
@@ -76,8 +118,11 @@ function getMoviesFromDB(mysqli $database, array $searchParameters, string $requ
 
 	while ($row = mysqli_fetch_assoc($result))
 	{
+		$genresId = explode(',', $row['genres']);
+		$row['genres'] = convertArrayFromIdsToNames($genres, $genresId);
 		$movies[] = $row;
 	}
+
 	return $movies;
 }
 
@@ -96,25 +141,43 @@ function getMovieById(mysqli $database, int $movieId): array
 	{
 		$movie[] = $row;
 	}
+
 	return $movie;
 }
 
-function getActors(mysqli $database, int $movieId): array
+function getActorsById(mysqli $database, array $actors, int $movieId): array
 {
-	$actors = [];
+	$actorsById = [];
+	$query = getGeneralQuery();
+	$query .= "where movie.ID = $movieId";
+	$result = mysqli_query($database, $query);
+
+	if (!$result)
+	{
+		$error = mysqli_errno($database) . ":" . mysqli_error($database);
+		trigger_error($error);
+	}
+
+	while ($row = mysqli_fetch_assoc($result))
+	{
+		$actorsId = explode(',', $row['actors']);
+		$row['actors'] = convertArrayFromIdsToNames($actors, $actorsId);
+		$actorsById[] = $row;
+	}
+
+	return $actorsById;
+}
+
+function getDirectorById(mysqli $database, int $movieId): array
+{
+	$directors = [];
 	$query = "SELECT
 		(
-			SELECT GROUP_CONCAT(actor.NAME SEPARATOR ', ')
-			FROM actor 
-			INNER JOIN movie_actor ma on actor.ID = ma.ACTOR_ID
-			WHERE ma.MOVIE_ID = movie.ID
-        ) as actors,
-        (
             SELECT director.NAME
 			FROM director 
 			INNER JOIN movie m on director.ID = m.DIRECTOR_ID
 			WHERE director.ID = movie.DIRECTOR_ID
-         GROUP BY director.ID
+            GROUP BY director.ID
         ) as director
 		FROM movie
 		where movie.ID = $movieId";
@@ -127,9 +190,8 @@ function getActors(mysqli $database, int $movieId): array
 	}
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		$actors[] = $row;
+		$directors[] = $row;
 	}
-	return $actors;
+
+	return $directors;
 }
-
-
