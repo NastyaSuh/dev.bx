@@ -1,4 +1,6 @@
 <?php
+include '../../src/DataGenerator/FinancialTransactionsRu.php';
+include '../../src/Result.php';
 
 class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,8 +19,37 @@ class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 					'CorrespAcc' => '',
 				]
 			],
+			'invalid input' => [
+				[
+					'Name' => 'Nn',
+					'PersonalAcc' => true, //valid input type is string not bool
+					'BankName' => 'Tinkoff',
+					'BIC' => '123456789',
+					'CorrespAcc' => '12345678901234567890',
+					]
+			],
+			'invalid parameters` length' => [
+				[
+					'Name' => 'Nn',
+					'PersonalAcc' => '1234567890123456789012', //valid length of this field is less than 20 characters
+					'BankName' => 'Tinkoff',
+					'BIC' => '123456789',
+					'CorrespAcc' => '12345678901234567890',
+				]
+			],
+			'one field is not filled' => [
+				[
+					'Name' => 'Nn',
+					'BankName' => 'Tinkoff',
+					// 'PersonalAcc' field is missing
+					'BIC' => '123456789',
+					'CorrespAcc' => '12345678901234567890',
+					]
+			],
 		];
 	}
+
+
 
 	/**
 	 * @dataProvider getValidateFailSamples
