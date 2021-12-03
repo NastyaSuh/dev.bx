@@ -46,6 +46,18 @@ class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 					'CorrespAcc' => '12345678901234567890',
 					]
 			],
+			'add new fields' => [
+				[
+					'Name' => [
+						'name' => 'nastya',
+						'surname' => 'susha'
+					],
+					'PersonalAcc' => '123456789',
+					'BankName' => 'Tinkoff',
+					'BIC' => '123456789',
+					'CorrespAcc' => '12345678901234567890',
+				]
+			]
 		];
 	}
 
