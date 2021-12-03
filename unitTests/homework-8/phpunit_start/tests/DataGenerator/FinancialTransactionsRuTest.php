@@ -48,7 +48,7 @@ class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 			],
 			'add new fields' => [
 				[
-					'Name' => [							//added a new field to field 'Name'
+					'Name' => [				 //added new fields to our field 'Name'
 						'name' => 'nastya',
 						'surname' => 'susha'
 					],
