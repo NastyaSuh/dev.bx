@@ -1,0 +1,14 @@
+для запуска нужно создать БД "unsec" и юзера с паролем "sqluser" / "sqlpass"
+
+примерные команды:
+
+CREATE DATABASE unsec;
+GRANT ALL PRIVILEGES ON unsec.* TO 'sqluser'@'localhost' IDENTIFIED BY 'sqlpass';
+
+
+CREATE DATABASE qwe;
+GRANT ALL PRIVILEGES ON qwe.* TO 'qwe'@'localhost' IDENTIFIED BY 'qwe';
+
+в файлах unsec_messages.sql и unsec_users.sql структура таблиц и демо данные
+
+
