@@ -1,0 +1,1 @@
+{"version":1,"defects":{"FinancialTransactionsRuTest::testThatValidateFailWithEmptyFields":5},"times":{"FinancialTransactionsRuTest::testEmpty":0,"FinancialTransactionsRuTest::testThatValidateFailWithEmptyFields":0.001}}
