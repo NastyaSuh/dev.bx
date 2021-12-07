@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-include "../../src/autoload.php";
+
 
 class OperationTest extends TestCase
 {
