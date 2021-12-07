@@ -2,8 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-
-
 class OperationTest extends TestCase
 {
 	protected function getOrderThatSavesSuccessfully()
